@@ -1,0 +1,22 @@
+<?php
+/** @var \Magento\Checkout\Block\Cart\Totals $block */
+$totals = $block->getTotals();
+?>
+<!-- LUXURY_OVERRIDE_LOADED -->
+<table class="data table totals">
+    <tbody>
+    <?php foreach ($totals as $code => $total): ?>
+        <?php
+        // ВСТАВЛЯЄМО наш рядок ПЕРЕД grand_total
+        if ($code === 'grand_total') {
+            // Побачиш цей коментар у HTML, якщо шаблон підхопився
+            echo "<!-- RENDER LUXURY TAX CHILD -->";
+            // РЕНДЕРИМО ДИТИНУ (твій блок)
+            echo $block->getChildHtml('andriy_luxurytax_summary');
+        }
+        ?>
+
+        <?= /* @noEscape */ $block->renderTotal($total, $code); ?>
+    <?php endforeach; ?>
+    </tbody>
+</table>

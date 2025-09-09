@@ -1,0 +1,11 @@
+<?php /** @var \Andriy\LuxuryTax\Block\Cart\Summary $block */ ?>
+<?php $amount = $block->getAmount(); ?>
+    <!-- LUXURY_CHILD_LOADED: <?= htmlspecialchars((string)$amount, ENT_QUOTES) ?> -->
+<?php if ((float)$amount > 0): ?>
+    <tr class="totals luxury-tax">
+        <th class="mark" scope="row"><span><?= $block->escapeHtml($block->getLabel()) ?></span></th>
+        <td class="amount" data-th="<?= $block->escapeHtmlAttr($block->getLabel()) ?>">
+            <span class="price"><?= /* @noEscape */ $block->formatPrice($amount) ?></span>
+        </td>
+    </tr>
+<?php endif; ?>

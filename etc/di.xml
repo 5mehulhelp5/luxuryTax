@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Andriy\LuxuryTax\Api\LuxuryTaxRepositoryInterface" type="Andriy\LuxuryTax\Model\EntryRepository"/>
+
+    <virtualType name="Andriy\LuxuryTax\Model\ResourceModel\Entry\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">luxury_tax</argument>
+            <argument name="resourceModel" xsi:type="string">Andriy\LuxuryTax\Model\ResourceModel\Entry</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="luxurytax_listing_data_source" xsi:type="string">Andriy\LuxuryTax\Model\ResourceModel\Entry\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Andriy\LuxuryTax\Block\Adminhtml\Item\SaveButton">
+        <arguments>
+            <argument name="targetName" xsi:type="string">luxurytax_form.luxurytax_form</argument>
+        </arguments>
+    </type>
+
+
+    <type name="Magento\Quote\Model\QuoteManagement">
+        <plugin name="save_luxury_tax_to_order"
+                type="Andriy\LuxuryTax\Plugin\SaveToOrderPlugin"
+                sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Totals">
+        <plugin name="andriy_luxury_tax_admin_total_get"
+                type="Andriy\LuxuryTax\Plugin\Adminhtml\Order\TotalsGetPlugin"
+                sortOrder="999"/>
+    </type>
+
+
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="andriy_luxurytax_order_grid_join"
+                type="Andriy\LuxuryTax\Plugin\Adminhtml\OrderGridJoin"
+                sortOrder="10"/>
+    </type>
+    <type name="Magento\Sales\Model\Order\Invoice\Total\Collector">
+        <arguments>
+            <argument name="collectors" xsi:type="array">
+                <item name="luxury_tax" xsi:type="array">
+                    <item name="class" xsi:type="string">Andriy\LuxuryTax\Model\Order\Invoice\Total\LuxuryTax</item>
+                    <item name="after" xsi:type="string">tax</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Sales\Model\Service\InvoiceService">
+        <plugin name="save_luxury_tax_to_invoice"
+                type="Andriy\LuxuryTax\Plugin\InvoicePlugin"
+                sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Sales\Block\Adminhtml\Order\Invoice\Totals">
+        <plugin name="add_luxury_tax_to_invoice_totals"
+                type="Andriy\LuxuryTax\Plugin\InvoiceTotalsPlugin"
+                sortOrder="10"/>
+    </type>
+</config>

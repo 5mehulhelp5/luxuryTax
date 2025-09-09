@@ -1,0 +1,11 @@
+{
+  "luxury_tax": {
+      "entity_id": true,
+      "status": true,
+      "name": true,
+      "description": true,
+      "customer_group_id": true,
+      "condition_amount": true,
+      "tax_rate": true
+  }
+}

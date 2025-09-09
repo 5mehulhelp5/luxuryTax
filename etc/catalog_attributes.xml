@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/catalog_attributes.xsd">
+    <group name="quote_item">
+        <attribute name="luxury_tax_amount"/>
+        <attribute name="base_luxury_tax_amount"/>
+    </group>
+</config>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Sales:etc/sales.xsd">
+    <section name="quote">
+        <group name="totals">
+            <item name="luxury_tax"
+                  instance="Andriy\LuxuryTax\Model\Quote\Address\Total\LuxuryTax"
+                  sort_order="220"/>
+        </group>
+    </section>
+
+    <fieldsets>
+        <fieldset id="sales_convert_quote">
+            <field name="luxury_tax"/>
+            <field name="base_andriy_luxury_tax"/>
+        </fieldset>
+        <fieldset id="sales_convert_quote_address">
+            <field name="luxury_tax"/>
+            <field name="base_andriy_luxury_tax"/>
+        </fieldset>
+    </fieldsets>
+</config>

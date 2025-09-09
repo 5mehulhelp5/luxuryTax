@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+
+    <event name="sales_order_invoice_save_before">
+        <observer name="add_luxury_tax_to_invoice"
+                  instance="Andriy\LuxuryTax\Observer\AddLuxuryTaxToInvoice"/>
+    </event>
+</config>

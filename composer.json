@@ -1,0 +1,22 @@
+{
+    "name": "andriy/magento2-luxury-tax",
+    "description": "Magento 2 module: Luxury Tax",
+    "type": "magento2-module",
+    "license": "MIT",
+    "version": "1.0.0",
+    "require": {
+        "php": ">=7.4",
+        "magento/framework": "^103.0|^104.0"
+    },
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Andriy\\LuxuryTax\\": ""
+        }
+    },
+    "extra": {
+        "magento-force": "override"
+    }
+}

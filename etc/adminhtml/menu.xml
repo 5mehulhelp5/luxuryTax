@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Andriy_LuxuryTax::menu"
+             title="Luxury Tax"
+             module="Andriy_LuxuryTax"
+             sortOrder="30"
+             parent="Magento_Tax::sales_tax"
+             action="luxurytax/index/index"
+             resource="Andriy_LuxuryTax::listing"/>
+    </menu>
+</config>

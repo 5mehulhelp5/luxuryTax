@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="checkout.cart.totals">
+            <!-- 1) Міняємо шаблон totals на наш -->
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Andriy_LuxuryTax::cart/totals/override_totals.phtml</argument>
+            </action>
+
+            <!-- 2) Додаємо наш блок як ДИТИНУ цього блоку -->
+            <block class="Andriy\LuxuryTax\Block\Cart\Summary"
+                   name="andriy.luxurytax.summary"
+                   as="andriy_luxurytax_summary"
+                   template="Andriy_LuxuryTax::cart/summary.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

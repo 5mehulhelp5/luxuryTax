@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Andriy Stetsiuk. All rights reserved.
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+
+    <table name="luxury_tax" resource="default" engine="innodb" comment="Luxury Tax">
+
+        <!-- Primary key -->
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+
+        <!-- Status -->
+        <column xsi:type="smallint" name="status" nullable="false" default="1" comment="Status"/>
+
+        <!-- Name -->
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Name"/>
+
+        <!-- Description -->
+        <column xsi:type="text" name="description" nullable="true" comment="Description"/>
+
+        <!-- Customer Group ID -->
+        <column xsi:type="int"  name="customer_group_id" unsigned="true" nullable="false" comment="Customer Group ID"/>
+
+        <!-- Condition Amount -->
+        <column xsi:type="decimal" name="condition_amount" scale="2" precision="12" nullable="false" default="0.00" comment="Condition Amount"/>
+
+        <!-- Tax Rate -->
+        <column xsi:type="decimal" name="tax_rate" scale="4" precision="12" nullable="false" default="0.0000" comment="Tax Rate"/>
+
+        <!-- Index for customer_group_id -->
+        <index xsi:type="unique" referenceId="ANDRIY_CUSTOM_TABLE_CUSTOMER_GROUP_ID" indexType="btree">
+            <column name="customer_group_id"/>
+        </index>
+
+        <!-- Foreign key to customer_group -->
+        <constraint xsi:type="foreign" referenceId="ANDRIY_CUSTOM_TABLE_CUSTOMER_GROUP_ID_CUSTOMER_GROUP_ENTITY_ID"
+                    table="luxury_tax" column="customer_group_id"
+                    referenceTable="customer_group" referenceColumn="customer_group_id"
+                    onDelete="CASCADE"/>
+    </table>
+
+    <!-- Quote Address amounts -->
+    <table name="quote_address">
+        <column xsi:type="decimal" name="luxury_tax"     nullable="true" scale="4" precision="12" comment="Luxury Tax"/>
+        <column xsi:type="decimal" name="base_luxury_tax" nullable="true" scale="4" precision="12" comment="Base Luxury Tax"/>
+    </table>
+
+    <!-- Sales Order amounts -->
+    <table name="sales_order">
+        <column xsi:type="decimal" name="luxury_tax"     nullable="true" scale="4" precision="12" comment="Luxury Tax"/>
+        <column xsi:type="decimal" name="base_luxury_tax" nullable="true" scale="4" precision="12" comment="Base Luxury Tax"/>
+        <column xsi:type="decimal" name="luxury_tax_condition_amount" precision="12" scale="4" nullable="true" comment="Luxury Tax Condition Amount"/>
+        <column xsi:type="decimal" name="base_luxury_tax_condition_amount" precision="12" scale="4" nullable="true" comment="Base Luxury Tax Condition Amount"/>
+
+    </table>
+
+    <!-- Invoice amounts -->
+    <table name="sales_invoice">
+        <column xsi:type="decimal" name="luxury_tax"     nullable="true" scale="4" precision="12" comment="Luxury Tax"/>
+        <column xsi:type="decimal" name="base_luxury_tax" nullable="true" scale="4" precision="12" comment="Base Luxury Tax"/>
+    </table>
+
+    <!-- Creditmemo amounts -->
+    <table name="sales_creditmemo">
+        <column xsi:type="decimal" name="luxury_tax"     nullable="true" scale="4" precision="12" comment="Luxury Tax"/>
+        <column xsi:type="decimal" name="base_luxury_tax" nullable="true" scale="4" precision="12" comment="Base Luxury Tax"/>
+    </table>
+</schema>
