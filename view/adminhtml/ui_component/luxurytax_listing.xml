@@ -5,8 +5,7 @@
  */
 -->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd"
-         toolbarVisible="true">
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
 
     <argument name="data" xsi:type="array">
         <item name="js_config" xsi:type="array">
@@ -43,8 +42,15 @@
     </dataSource>
 
     <columns name="grid_luxurytax_columns">
-        <selectionsColumn name="ids"/>
-        <column name="entity_id" sortOrder="10">
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="sortOrder" xsi:type="number">0</item>
+                </item>
+            </argument>
+        </selectionsColumn>        <column name="entity_id" sortOrder="10">
             <settings><label translate="true">ID</label><sorting>asc</sorting></settings>
         </column>
         <column name="status" sortOrder="20">

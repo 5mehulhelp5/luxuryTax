@@ -17,6 +17,7 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
 class LuxuryTax extends AbstractTotal
 {
     public const TOTAL_CODE = 'luxury_tax';
+    private ScopeConfigInterface $scopeConfig;
 
     public function __construct(private RuleProvider $ruleProvider,
                                 ScopeConfigInterface $scopeConfig

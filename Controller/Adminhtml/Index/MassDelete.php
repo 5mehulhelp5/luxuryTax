@@ -12,6 +12,7 @@ use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\Result\RedirectFactory;
 use Andriy\LuxuryTax\Model\ResourceModel\Entry\CollectionFactory;
 use Magento\Framework\Controller\ResultInterface;
+use Andriy\LuxuryTax\Model\EntryFactory;
 
 class MassDelete extends Action
 {
@@ -19,6 +20,7 @@ class MassDelete extends Action
 
     public function __construct(
         Action\Context $context,
+        private readonly EntryFactory $entryFactory,
         private readonly CollectionFactory $collectionFactory,
         private readonly RedirectFactory $redirectFactory
     ) { parent::__construct($context); }
@@ -41,8 +43,12 @@ class MassDelete extends Action
 
         $deleted = 0;
         foreach ($collection as $item) {
+            $model = $this->entryFactory->create()->load($item->getId());
+
             try {
-                $item->delete();
+
+//                die(var_dump($item->deleteById($item->getId())));
+                $model->delete();
                 $deleted++;
             } catch (\Throwable $e) {
                 // continue
