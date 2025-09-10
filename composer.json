@@ -3,7 +3,7 @@
     "description": "Magento 2 module: Luxury Tax",
     "type": "magento2-module",
     "license": "MIT",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "require": {
         "php": ">=7.4",
         "magento/framework": "^103.0|^104.0"
