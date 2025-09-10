@@ -44,12 +44,11 @@ class LuxuryTax extends AbstractTotal
     {
         parent::collect($quote, $shippingAssignment, $total);
         $enabled = $this->scopeConfig->isSetFlag(
-            'andriy_luxurytax/general/enabled',
+            'tax/andriy_luxurytax_highlight/enabled',
             ScopeInterface::SCOPE_STORE
         );
 
         if (!$enabled) {
-            // нічого не робимо — податок вимкнено
             return $this;
         }
         $items = $shippingAssignment->getItems();

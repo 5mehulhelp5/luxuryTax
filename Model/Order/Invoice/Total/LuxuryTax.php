@@ -25,7 +25,7 @@ class LuxuryTax extends AbstractTotal
     {
         parent::collect($invoice);
         $enabled = $this->scopeConfig->isSetFlag(
-            'andriy_luxurytax/general/enabled',
+            'tax/andriy_luxurytax_highlight/enabled',
             ScopeInterface::SCOPE_STORE
         );
 
