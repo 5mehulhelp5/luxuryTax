@@ -6,9 +6,17 @@ namespace Andriy\LuxuryTax\Model\Order\Invoice\Total;
 
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Invoice\Total\AbstractTotal;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 class LuxuryTax extends AbstractTotal
 {
+
+    public function __construct(
+        ScopeConfigInterface $scopeConfig
+    ) {
+        $this->scopeConfig = $scopeConfig;
+    }
     /**
      * @param Invoice $invoice
      * @return $this|LuxuryTax
@@ -16,7 +24,15 @@ class LuxuryTax extends AbstractTotal
     public function collect(Invoice $invoice)
     {
         parent::collect($invoice);
+        $enabled = $this->scopeConfig->isSetFlag(
+            'andriy_luxurytax/general/enabled',
+            ScopeInterface::SCOPE_STORE
+        );
 
+        if (!$enabled) {
+            // нічого не робимо — податок вимкнено
+            return $this;
+        }
         $luxuryTaxAmount = $invoice->getData('luxury_tax');
 
         if ($luxuryTaxAmount > 0) {

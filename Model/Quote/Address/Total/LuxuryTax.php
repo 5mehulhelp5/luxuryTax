@@ -2,6 +2,7 @@
 /**
  * Copyright © Andriy Stetsiuk. All rights reserved.
  */
+
 namespace Andriy\LuxuryTax\Model\Quote\Address\Total;
 
 use Magento\Quote\Model\Quote\Address\Total;
@@ -9,15 +10,22 @@ use Magento\Quote\Model\Quote\Address\Total\AbstractTotal;
 use Magento\Quote\Api\Data\ShippingAssignmentInterface;
 use Magento\Quote\Model\Quote;
 use Andriy\LuxuryTax\Model\RuleProvider;
+use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+
 
 class LuxuryTax extends AbstractTotal
 {
     public const TOTAL_CODE = 'luxury_tax';
 
-    public function __construct(private RuleProvider $ruleProvider)
+    public function __construct(private RuleProvider $ruleProvider,
+                                ScopeConfigInterface $scopeConfig
+    )
     {
         $this->setCode(self::TOTAL_CODE);
+        $this->scopeConfig = $scopeConfig;
     }
+
 
     // Model/Quote/Address/Total/LuxuryTax.php
 
@@ -28,11 +36,21 @@ class LuxuryTax extends AbstractTotal
      * @return $this|LuxuryTax
      */
     public function collect(
-        Quote $quote,
-        ShippingAssignmentInterface $shippingAssignment,
+        Quote                                    $quote,
+        ShippingAssignmentInterface              $shippingAssignment,
         \Magento\Quote\Model\Quote\Address\Total $total
-    ) {
+    )
+    {
         parent::collect($quote, $shippingAssignment, $total);
+        $enabled = $this->scopeConfig->isSetFlag(
+            'andriy_luxurytax/general/enabled',
+            ScopeInterface::SCOPE_STORE
+        );
+
+        if (!$enabled) {
+            // нічого не робимо — податок вимкнено
+            return $this;
+        }
         $items = $shippingAssignment->getItems();
         if (!\is_array($items) || !\count($items)) {
             return $this;
@@ -67,7 +85,7 @@ class LuxuryTax extends AbstractTotal
         $baseTax = round($baseSubtotalWithDiscount * ($ratePercent / 100), 2);
 
         $rate = (float)$quote->getBaseToQuoteRate() ?: 1.0;
-        $tax  = round($baseTax * $rate, 2);
+        $tax = round($baseTax * $rate, 2);
 
         $address->setData('luxury_tax', $tax);
         $address->setData('base_luxury_tax', $baseTax);
@@ -90,9 +108,10 @@ class LuxuryTax extends AbstractTotal
      * @return array|null
      */
     public function fetch(
-        \Magento\Quote\Model\Quote $quote,
+        \Magento\Quote\Model\Quote               $quote,
         \Magento\Quote\Model\Quote\Address\Total $total
-    ) {
+    )
+    {
         $luxuryTaxAmount = $total->getLuxuryTaxAmount();
 
         if ($luxuryTaxAmount > 0) {

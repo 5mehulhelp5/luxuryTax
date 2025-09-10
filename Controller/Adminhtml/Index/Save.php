@@ -74,7 +74,7 @@ class Save extends LuxuryTax
             } catch (LocalizedException $e) {
                 $this->messageManager->addErrorMessage($e->getMessage());
             } catch (\Exception $e) {
-                $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Point.'));
+                $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the Tax.'));
             }
 
             $this->dataPersistor->set('andriy_points_item', $data);

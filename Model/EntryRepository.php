@@ -43,12 +43,32 @@ class EntryRepository implements LuxuryTaxRepositoryInterface
     public function save(Data\LuxuryTaxInterface $entry): Data\LuxuryTaxInterface
     {
         try {
-            /** @noinspection PhpParamsInspection */
+            // перевіряємо чи вже існує запис із таким customer_group_id
+            $connection = $this->resource->getConnection();
+            $select = $connection->select()
+                ->from($this->resource->getMainTable(), 'entity_id')
+                ->where('customer_group_id = ?', $entry->getCustomerGroupId());
+
+            if ($entry->getId()) {
+                $select->where('entity_id != ?', $entry->getId());
+            }
+
+            $exists = $connection->fetchOne($select);
+            if ($exists) {
+                throw new \Magento\Framework\Exception\LocalizedException(
+                    __('Luxury Tax for this customer group already exists.')
+                );
+            }
+
             $this->resource->save($entry);
+        } catch (\Magento\Framework\Exception\LocalizedException $e) {
+            // пробросимо далі нашу зрозумілу помилку
+            throw $e;
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
-        return $point;
+
+        return $entry;
     }
 
     /**
@@ -79,7 +99,7 @@ class EntryRepository implements LuxuryTaxRepositoryInterface
         } catch (\Exception $exception) {
             /** @noinspection PhpUndefinedClassInspection */
             throw new CouldNotDeleteException(__(
-                'Could not delete the Point: %1',
+                'Could not delete the Luxury Tax: %1',
                 $exception->getMessage()
             ));
         }
@@ -91,8 +111,8 @@ class EntryRepository implements LuxuryTaxRepositoryInterface
      * @return bool
      * @throws NoSuchEntityException
      */
-    public function deleteById(int $pointId): bool
+    public function deleteById(int $entryId): bool
     {
-        return $this->delete($this->get($pointId));
+        return $this->delete($this->get($entryId));
     }
 }

@@ -15,7 +15,7 @@ require(['jquery'], function($) {
             if (conditionAmount < 100) {
                 row.css('background-color', '#ffffff');
             } else if (conditionAmount >= 100 && conditionAmount <= 1000) {
-                row.css('background-color', '#fffbbb');
+                row.css('background-color', '#bbffbb');
             } else if (conditionAmount > 1000) {
                 row.css('background-color', '#bbffbb');
             }

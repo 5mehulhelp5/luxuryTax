@@ -1,3 +1,8 @@
+<?php $colors = $block->getColors(); ?>
+<script>
+    window.andriyLuxuryTaxColors = <?= /* @noEscape */ json_encode($colors) ?>;
+</script>
+
 <script type="text/x-magento-init">
     {
         "*": { "Andriy_LuxuryTax/js/order-grid-highlighter": {} }
